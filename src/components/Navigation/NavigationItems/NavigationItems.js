@@ -1,6 +1,5 @@
 import React from "react";
 
-//components
 import classes from "./NavigationItems.css";
 import NavigationItem from "./NavigationItem/NavigationItem";
 
