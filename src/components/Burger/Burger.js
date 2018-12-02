@@ -1,29 +1,28 @@
-import React from "react";
+import React from 'react';
+import BurgerIngredients from './BurgerIngredients/BurgerIngredients';
 
-import classes from "./Burger.css";
-import BurgerIngredients from "./BurgerIngredients/BurgerIngredients";
+import classes from "./Burger.module.css";
 
+const Burger  = (props) => {
+    let ingredients = Object.keys(props.Ingredients).map(igKey => {
+        return [...Array(props.Ingredients[igKey])].map((_,i) => {
+            return <BurgerIngredients key={igKey + i} ingredientType={igKey} />
+        });
+    }).reduce((arr,el) => {
+        return arr.concat(el);
+    }, []);
 
-const Burger = (props) =>{
-  let recipe = Object.keys(props.ingredients).map((val)=>{
-    return [...Array(props.ingredients[val])].map((_,i)=>{
-      return <BurgerIngredients key={val + i} type={val} />
-    });
-  }).reduce((arr,val)=>{
-    return arr.concat(val);
-  },[]);
-
-  if(recipe.length === 0){
-    recipe = <p>Customize your burger</p>
-  }
-
-  return(
-    <div className={classes.burger}>
-      <BurgerIngredients type="bread-top"/>
-      {recipe}
-      <BurgerIngredients type="bread-bottom"/>
-    </div>
-  );
+     if(ingredients.length === 0) {
+         ingredients = <p>Please Add Some Ingredients</p>
+     }
+    return (
+        <div className={classes.Burger}>
+            <BurgerIngredients ingredientType={"top-bun"} />
+            {ingredients}
+            <BurgerIngredients ingredientType={"bottom-bun"} />
+        </div>
+    );
 }
+
 
 export default Burger;
