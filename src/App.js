@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 
 //component imports
 import Layout from "./containers/Layout/Layout";
-import BurgerBuilder from "./containers/BurgerBuilder/BurgerBuilder";
+import BurgerBuilder from "./containers/Burger-builder/Burger-builder";
 import Checkout from './containers/Checkout/Checkout';
 import Orders from './containers/Orders/Orders';
 
