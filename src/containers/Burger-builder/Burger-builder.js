@@ -6,34 +6,18 @@ import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import * as burgerBuilderActions from '../../store/actions/index';
 import axios from '../../axios-orders';
-import * as actionTypes from '../../store/actions';
 
 class BurgerBuilder extends Component {
 
 
     state = {
         isPurchasing: false,
-        loading: false,
-        error: false
     }
 
     componentDidMount() {
-        //  axios.get("https://react-burger-builder-999f2.firebaseio.com/ingredients.json")
-        //     .then(response => {
-        //         let currentPrice = this.state.totalPrice;
-        //         const ingredients = response.data;
-        //         for (let keys in ingredients) {
-        //             if(ingredients[keys] > 0) {
-        //                 currentPrice += ingredientPrices[keys];
-        //             }
-        //         }
-        //         this.setState({ ingredients: response.data, totalPrice: currentPrice});
-        //     })
-        //     .catch(error => {
-        //         this.setState({ error : true });
-        //     });
-
+        this.props.onInitIngredients();
     }
 
     updatePurchaseState(ingredients) {
@@ -67,7 +51,7 @@ class BurgerBuilder extends Component {
         }
 
         let orderSummary = null;
-        let burger = this.state.error ? <p>Site Could not be Loaded, please try again later</p> : <Spinner />;
+        let burger = this.props.error ? <p>Site Could not be Loaded, please try again later</p> : <Spinner />;
 
         if (this.props.ingredientList) {
             burger = (
@@ -90,10 +74,6 @@ class BurgerBuilder extends Component {
                 continueHandler={this.continuePurchaseHandler} />
         }
 
-        if (this.state.loading) {
-            orderSummary = <Spinner />
-        }
-
         return (
             <React.Fragment>
                 <Modal
@@ -111,14 +91,16 @@ class BurgerBuilder extends Component {
 const mapStateToProps = state => {
     return {
         ingredientList: state.ingredients,
-        totalBugerPrice: state.totalPrice
+        totalBugerPrice: state.totalPrice,
+        error: state.error
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onIngredientAdded: (ingName) => dispatch({type: actionTypes.ADD_INGREDIENT, ingredientName: ingName}),
-        onIngredientRemoved: (ingName) => dispatch({type: actionTypes.REMOVE_INGREDIENT, ingredientName: ingName})
+        onIngredientAdded: (ingName) => dispatch(burgerBuilderActions.addIngredient(ingName)),
+        onIngredientRemoved: (ingName) => dispatch(burgerBuilderActions.removeIngredient(ingName)),
+        onInitIngredients: () => dispatch(burgerBuilderActions.initIngredients())
     }
 }
 
