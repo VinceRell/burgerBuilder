@@ -1,7 +1,7 @@
 export {
     addIngredient,
     removeIngredient,
-    initIngredients
+    initIngredientsAndPrice
 } from './burgBuilder';
 
 export {

@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import classes from './ContactData.module.css';
-import axios from '../../../axios-orders';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Button from '../../../components/UI/Button/Button';
 import Input from '../../../components/UI/Input/Input';
-import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import * as orderActions from '../../../store/actions/index';
 
 class ContactData extends Component {
@@ -88,7 +86,7 @@ class ContactData extends Component {
                         {value: 'cheapest', displayValue: 'Cheapest'}
                     ]
                 },
-                value: '',
+                value: 'fastest',
                 validation: {},
                 valid: true
             }
@@ -109,6 +107,7 @@ class ContactData extends Component {
         };
 
         this.props.onOrderBurger(order);
+        this.props.history.push("/");
     }
 
 
@@ -201,9 +200,9 @@ class ContactData extends Component {
 
 const mapStateToProps = state => {
     return {
-        ingredientList: state.ingredients,
-        totalBurgerPrice: state.totalPrice,
-        loading: state.loading
+        ingredientList: state.burgerBuilder.ingredients,
+        totalBurgerPrice: state.burgerBuilder.totalPrice,
+        loading: state.orders.loading
     }
 }
 
@@ -213,4 +212,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios));
+export default connect(mapStateToProps, mapDispatchToProps)(ContactData);

@@ -16,10 +16,11 @@ export const removeIngredient = (igName) => {
     }
 }
 
-export const setIngredients = (ingredientCollection) => {
+export const setIngredientsAndPrice = (ingredientCollection, price) => {
     return {
-        type: actionTypes.SET_INGREDIENTS,
-        ingredients: ingredientCollection
+        type: actionTypes.SET_INGREDIENTS_AND_PRICE,
+        ingredients: ingredientCollection,
+        price: price
     }
 }
 
@@ -29,14 +30,18 @@ export const fetchIngredientsFailed = () => {
     }
 }
 
-export const initIngredients = () => {
+export const initIngredientsAndPrice = () => {
     return dispatch => {
-        axios.get("https://react-burger-builder-999f2.firebaseio.com/ingredients.json")
-        .then(response => {
-               dispatch(setIngredients(response.data));
-            })
-            .catch(error => {
-                dispatch(fetchIngredientsFailed());
-            });
+        Promise.all([axios.get("https://react-burger-builder-999f2.firebaseio.com/ingredients.json"),
+        axios.get("https://react-burger-builder-999f2.firebaseio.com/price.json")])
+        .then( response => {
+            dispatch(setIngredientsAndPrice(response[0].data, response[1].data));
+        })
+        .catch( error => {
+            dispatch(fetchIngredientsFailed)
+        })
     }
 }
+
+
+    
