@@ -4,23 +4,38 @@ import Modal from '../../components/UI/Modal/Modal';
 
 const withErrorHandler = (WrappedComponent, axios) => {
     return class extends Component {
+        _isMounted = false;
+
         state = {
             error: null
         }
 
-        resInterceptor = axios.interceptors.request.use(req => {
-                this.setState({error: null});
-                return req;
-            });
 
-        reqInterceptor = axios.interceptors.response.use(res => res, err => {
-                this.setState({error: err});
+
+        resInterceptor = () => {
+            this._isMounted = true;
+            axios.interceptors.request.use(req => {
+                if(this._isMounted) {
+                    this.setState({error: null});
+                    return req;
+                }
             });
+        }
+
+        reqInterceptor = () => {
+            this._isMounted = true;
+            axios.interceptors.response.use(res => res, err => {
+              if(this._isMounted) {
+                this.setState({error: err});
+              }
+            });
+        }
     
 
         componentWillUnmount() {
-            axios.interceptors.response.eject(this.resInterceptor);
-            axios.interceptors.request.eject(this.reqInterceptor);
+           this._isMounted = false;
+           axios.interceptors.response.eject(this.resInterceptor);
+           axios.interceptors.request.eject(this.reqInterceptor);
         }
 
         confirmErrorHandler = () => {
