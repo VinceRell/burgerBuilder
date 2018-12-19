@@ -8,7 +8,6 @@ export const addIngredient = (igName) => {
     }
 }
 
-
 export const removeIngredient = (igName) => {
     return {
         type: actionTypes.REMOVE_INGREDIENT,
@@ -38,7 +37,7 @@ export const initIngredientsAndPrice = () => {
             dispatch(setIngredientsAndPrice(response[0].data, response[1].data));
         })
         .catch( error => {
-            dispatch(fetchIngredientsFailed)
+            dispatch(fetchIngredientsFailed());
         })
     }
 }

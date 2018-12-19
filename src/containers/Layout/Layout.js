@@ -6,41 +6,41 @@ import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 
 class Layout extends Component {
     state = {
-        displaySideDrawer: false
+        showSideDrawer: false
     }
 
-    openSideDrawerHandler = () => {
-        this.setState((prevState) => {
-             return {displaySideDrawer: !prevState.displaySideDrawer};
-        });
+    sideDrawerClosedHandler = () => {
+        this.setState( { showSideDrawer: false } );
     }
 
-    closeSideDrawerHandler = () => {
-        this.setState({displaySideDrawer: false});
+    sideDrawerToggleHandler = () => {
+        this.setState( ( prevState ) => {
+            return { showSideDrawer: !prevState.showSideDrawer };
+        } );
     }
 
-    render() {
+    render () {
         return (
             <React.Fragment>
-                <Toolbar 
-                isAuth={this.props.isAuthenticated}
-                openMobileNav={this.openSideDrawerHandler}/>
-                <SideDrawer 
+                <Toolbar
                     isAuth={this.props.isAuthenticated}
-                    openSideDrawer={this.state.displaySideDrawer} 
-                    closedSideDrawer={this.closeSideDrawerHandler}/>
+                    drawerToggleClicked={this.sideDrawerToggleHandler} />
+                <SideDrawer
+                    isAuth={this.props.isAuthenticated}
+                    open={this.state.showSideDrawer}
+                    closed={this.sideDrawerClosedHandler} />
                 <main className={classes.Content}>
                     {this.props.children}
                 </main>
             </React.Fragment>
-        );
+        )
     }
-} 
+}
 
 const mapStateToProps = state => {
     return {
         isAuthenticated: state.auth.token !== null
-    }
-}
+    };
+};
 
-export default connect(mapStateToProps)(Layout);
+export default connect( mapStateToProps )( Layout );

@@ -3,12 +3,11 @@ export {
     removeIngredient,
     initIngredientsAndPrice
 } from './burgBuilder';
-
 export {
     purchaseBurger,
+    purchaseInit,
     fetchOrders
 } from './orders';
-
 export {
     auth,
     logout,

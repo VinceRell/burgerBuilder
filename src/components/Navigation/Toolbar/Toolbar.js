@@ -7,7 +7,7 @@ import DrawerToggle from '../SideDrawer/DrawerToggle/DrawerToggle';
 
 const toolbar = (props) => (
     <header className={classes.Toolbar}> 
-        <DrawerToggle toggleDrawer={props.openMobileNav}/>
+        <DrawerToggle clicked={props.drawerToggleClicked}/>
         <div className={classes.Logo}> 
             <Logo />
         </div>
@@ -16,6 +16,5 @@ const toolbar = (props) => (
         </nav>
     </header>
 );
-
 
 export default toolbar;

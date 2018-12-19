@@ -6,15 +6,17 @@ import NavigationItems from '../NavigationItems/NavigationItems';
 import Backdrop from '../../UI/Backdrop/Backdrop';
 
 const sideDrawer = (props) => {
-    let mobileStyles = [classes.SideDrawer, props.openSideDrawer ? classes.Open : classes.Close];
+    let attachedClasses = [classes.SideDrawer, classes.Close];
+    if (props.open) {
+        attachedClasses = [classes.SideDrawer, classes.Open];
+    }
     return (
         <React.Fragment>
-
             <Backdrop
-            show={props.openSideDrawer} 
-            cancelEvent={props.closedSideDrawer}/>
+            show={props.open} 
+            cancelEvent={props.closed}/>
 
-            <div className={mobileStyles.join(" ")}>
+            <div className={attachedClasses.join(" ")} onClick={props.closed}>
                 
                 <div className={classes.Logo}>
                     <Logo />

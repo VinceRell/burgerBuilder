@@ -14,6 +14,5 @@ const navigationItem = (props) => (
     </li>
 );
 
-
 export default navigationItem;
 

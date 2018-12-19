@@ -6,39 +6,40 @@ import ContactData from './ContactData/ContactData';
 
 class Checkout extends Component {
 
-    checkoutContinuedHandler = () => {
-        this.props.history.push(this.props.match.url + "/contact-data");
-    }
-
-
     checkoutCancelledHandler = () => {
         this.props.history.goBack();
     }
 
-    render() {
+    checkoutContinuedHandler = () => {
+        this.props.history.replace( '/checkout/contact-data' );
+    }
+
+    render () {
         let summary = <Redirect to="/" />
-        if(this.props.ingredientList) {
-            summary = (    
-                <section>
-                    <CheckoutSummary 
-                        ingredients={this.props.ingredientList}
+        if ( this.props.ings ) {
+            const purchasedRedirect = this.props.purchased ? <Redirect to="/"/> : null;
+            summary = (
+                <div>
+                    {purchasedRedirect}
+                    <CheckoutSummary
+                        ingredients={this.props.ings}
                         checkoutCancelled={this.checkoutCancelledHandler}
-                        checkoutContinued={this.checkoutContinuedHandler}/>
-                    <Route 
-                        path={this.props.match.url + "/contact-data"}
+                        checkoutContinued={this.checkoutContinuedHandler} />
+                    <Route
+                        path={this.props.match.path + '/contact-data'}
                         component={ContactData} />
-                </section>
-                );
+                </div>
+            );
         }
         return summary;
     }
-
 }
 
 const mapStateToProps = state => {
     return {
-        ingredientList: state.burgerBuilder.ingredients
+        ings: state.burgerBuilder.ingredients,
+        purchased: state.orders.purchased
     }
-}
+};
 
-export default connect(mapStateToProps)(Checkout);
+export default connect( mapStateToProps )( Checkout );

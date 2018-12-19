@@ -10,10 +10,10 @@ const checkoutSummary = (props) => {
         <section className={classes.CheckoutSummary}>
             <h1>Your Order</h1>
             <div style={{width: "100%", margin: "auto"}}>
-                <Burger Ingredients={props.ingredients}/>
+                <Burger ingredients={props.ingredients}/>
             </div>
-            <Button BtnType="Danger" clicked={props.checkoutCancelled}>CANCEL</Button>
-            <Button BtnType="Success" clicked={props.checkoutContinued}>CONTINUE</Button>
+            <Button btnType="Danger" clicked={props.checkoutCancelled}>CANCEL</Button>
+            <Button btnType="Success" clicked={props.checkoutContinued}>CONTINUE</Button>
         </section>
     );
 }
